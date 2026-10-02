@@ -1,6 +1,6 @@
 import { ChapterHeading } from './chapter-heading'
 import { CouplePhoto } from './couple-photo'
-import { crops, favoriteMemories, names } from '@/lib/content'
+import { crops, favoriteMemories, names, photos } from '@/lib/content'
 
 export function FavoriteMemories() {
   return (
@@ -24,6 +24,7 @@ export function FavoriteMemories() {
               >
                 <span aria-hidden="true" className="tape" />
                 <CouplePhoto
+                  src={photos[p.photo]}
                   crop={crops[p.crop]}
                   alt={`${names.me} and ${names.him}: ${p.caption}`}
                   sizes="240px"

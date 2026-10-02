@@ -1,7 +1,7 @@
 import { Heart } from 'lucide-react'
 import { ChapterHeading } from './chapter-heading'
 import { CouplePhoto } from './couple-photo'
-import { crops, fallingForYou, names } from '@/lib/content'
+import { crops, fallingForYou, names, photos } from '@/lib/content'
 
 const floatingHearts = [
   { top: '6%', left: '8%', size: 'size-5', delay: '0s' },
@@ -18,7 +18,8 @@ export function FallingForYou() {
           <div aria-hidden="true" className="absolute inset-[8%] rounded-full bg-rose/30 blur-3xl" />
           <div className="mask-heart relative aspect-[10/9] w-full">
             <CouplePhoto
-              crop={crops.headOnShoulder}
+              src={photos.airport}
+              crop={crops.portrait}
               alt={`Close-up of ${names.me} leaning on ${names.him}, both smiling`}
               parallax={1}
               className="absolute inset-0"

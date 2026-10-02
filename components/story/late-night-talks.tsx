@@ -1,7 +1,7 @@
 import { Moon } from 'lucide-react'
 import { ChapterHeading } from './chapter-heading'
 import { CouplePhoto } from './couple-photo'
-import { crops, lateNight, names } from '@/lib/content'
+import { crops, lateNight, names, photos } from '@/lib/content'
 import { cn } from '@/lib/utils'
 
 export function LateNightTalks() {
@@ -13,7 +13,8 @@ export function LateNightTalks() {
           <div aria-hidden="true" className="absolute -inset-10 rounded-full bg-moon/15 blur-3xl" />
           <div className="relative size-72 rounded-full p-1.5 shadow-[0_0_80px_oklch(0.9_0.04_255/0.45)] ring-1 ring-moon/40 md:size-96">
             <CouplePhoto
-              crop={crops.faces}
+              src={photos.kiss}
+              crop={crops.portrait}
               alt={`${names.me} and ${names.him}, bathed in moonlight`}
               parallax={0.8}
               sizes="384px"

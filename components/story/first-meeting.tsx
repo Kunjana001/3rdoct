@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react'
 import { CouplePhoto } from './couple-photo'
-import { crops, firstMeeting, names } from '@/lib/content'
+import { crops, firstMeeting, names, photos } from '@/lib/content'
 
 export function FirstMeeting() {
   return (
@@ -9,7 +9,8 @@ export function FirstMeeting() {
       className="relative flex min-h-svh items-center overflow-hidden px-6 pb-24 pt-20 md:px-12"
     >
       <CouplePhoto
-        crop={crops.seated}
+        src={photos.river}
+        crop={crops.portrait}
         alt=""
         priority
         parallax={1.5}
@@ -53,8 +54,9 @@ export function FirstMeeting() {
           <div aria-hidden="true" className="photo-glow absolute -inset-6 rounded-t-full" />
           <div className="relative rounded-t-full border border-moon/25 p-2">
             <CouplePhoto
-              crop={crops.upper}
-              alt={`${names.me} resting her head on ${names.him}'s shoulder`}
+              src={photos.river}
+              crop={crops.portrait}
+              alt={`${names.me} and ${names.him} together by the river`}
               priority
               sizes="(min-width: 768px) 384px, 256px"
               className="aspect-[3/4] rounded-t-full"

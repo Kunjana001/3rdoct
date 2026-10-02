@@ -1,6 +1,6 @@
 import { CouplePhoto } from './couple-photo'
 import { HeartBurst } from './heart-burst'
-import { crops, finale, names } from '@/lib/content'
+import { crops, finale, names, photos } from '@/lib/content'
 
 export function BoyfriendsDayFinale() {
   return (
@@ -20,7 +20,8 @@ export function BoyfriendsDayFinale() {
         <div aria-hidden="true" className="photo-glow absolute -inset-8 rounded-full" />
         <div className="mask-heart animate-heartbeat-slow relative aspect-[10/9] w-full">
           <CouplePhoto
-            crop={crops.headOnShoulder}
+            src={photos.sunset}
+            crop={crops.close}
             alt={`${names.me} and ${names.him} together, heads close`}
             sizes="320px"
             className="absolute inset-0"

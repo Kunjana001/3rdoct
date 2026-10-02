@@ -7,6 +7,11 @@ export const names = {
 export const photos = {
   together: '/photos/us-together.jpg',
   adventure: '/photos/our-feet.jpg',
+  river: '/photos/river.jpg',
+  airport: '/photos/airport.jpg',
+  bistro: '/photos/bistro.jpg',
+  kiss: '/photos/kiss.jpg',
+  sunset: '/photos/sunset.jpg',
 }
 
 /**
@@ -112,6 +117,8 @@ export const crops = {
   sneakers: { x: 50, y: 92, zoom: 2.2 },
   seated: { x: 50, y: 55, zoom: 1.35 },
   upper: { x: 50, y: 38, zoom: 1.6 },
+  portrait: { x: 50, y: 30, zoom: 1 },
+  close: { x: 55, y: 28, zoom: 1.5 },
 } satisfies Record<string, Crop>
 
 export const firstMeeting = {
@@ -140,10 +147,10 @@ export const favoriteMemories = {
   title: 'Our Favorite Memories',
   intro: 'Little frames I would replay forever if I could.',
   polaroids: [
-    { crop: 'full', caption: 'The day we couldn’t stop smiling', rotate: -6 },
-    { crop: 'headOnShoulder', caption: 'My head, your shoulder, always', rotate: 4 },
-    { crop: 'hands', caption: 'Your hands, my calm', rotate: -3 },
-    { crop: 'sneakers', caption: 'Matching steps, same direction', rotate: 7 },
+    { photo: 'kiss', crop: 'portrait', caption: 'The day we couldn’t stop smiling', rotate: -6 },
+    { photo: 'airport', crop: 'portrait', caption: 'My head, your shoulder, always', rotate: 4 },
+    { photo: 'bistro', crop: 'portrait', caption: 'Your hands, my calm', rotate: -3 },
+    { photo: 'sunset', crop: 'portrait', caption: 'Matching steps, same direction', rotate: 7 },
   ] as const,
 }
 

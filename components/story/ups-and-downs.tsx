@@ -1,7 +1,7 @@
 import { CloudRain, Sun } from 'lucide-react'
 import { ChapterHeading } from './chapter-heading'
 import { CouplePhoto } from './couple-photo'
-import { crops, names, upsAndDowns } from '@/lib/content'
+import { crops, names, upsAndDowns, photos } from '@/lib/content'
 
 export function UpsAndDowns() {
   return (
@@ -10,7 +10,8 @@ export function UpsAndDowns() {
         <div className="relative w-full max-w-sm flex-1" data-reveal>
           <div className="glass rounded-[2rem] p-3">
             <CouplePhoto
-              crop={crops.full}
+              src={photos.sunset}
+              crop={crops.portrait}
               alt={`${names.me} and ${names.him} sitting close together, side by side`}
               colorReveal
               sizes="(min-width: 768px) 384px, 90vw"

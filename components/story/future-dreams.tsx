@@ -1,7 +1,7 @@
 import { Sparkles } from 'lucide-react'
 import { ChapterHeading } from './chapter-heading'
 import { CouplePhoto } from './couple-photo'
-import { crops, futureDreams, names } from '@/lib/content'
+import { crops, futureDreams, names, photos } from '@/lib/content'
 
 export function FutureDreams() {
   return (
@@ -15,7 +15,8 @@ export function FutureDreams() {
         <div className="flex flex-col items-center gap-12 md:flex-row md:items-stretch">
           <figure className="relative w-full max-w-sm shrink-0 overflow-hidden rounded-[2rem] border border-moon/20" data-reveal>
             <CouplePhoto
-              crop={crops.upper}
+              src={photos.bistro}
+              crop={crops.portrait}
               alt={`${names.me} and ${names.him}, dreaming of the days ahead`}
               parallax={1}
               sizes="384px"

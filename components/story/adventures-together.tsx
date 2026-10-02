@@ -4,9 +4,9 @@ import { CouplePhoto } from './couple-photo'
 import { adventures, crops, names, photos } from '@/lib/content'
 
 const filmFrames = [
-  { crop: crops.faces, alt: `${names.me} and ${names.him}, cheek to cheek` },
-  { crop: crops.seated, alt: `${names.me} and ${names.him} sitting together` },
-  { crop: crops.sneakers, alt: 'Our sneakers side by side' },
+  { src: photos.sunset, crop: crops.portrait, alt: `${names.me} and ${names.him}, cheek to cheek at sunset` },
+  { src: photos.river, crop: crops.portrait, alt: `${names.me} and ${names.him} by the river` },
+  { src: photos.bistro, crop: crops.portrait, alt: `${names.me} and ${names.him} sitting together in a cafe` },
 ]
 
 export function AdventuresTogether() {
@@ -52,6 +52,7 @@ export function AdventuresTogether() {
             {filmFrames.map((f) => (
               <CouplePhoto
                 key={f.alt}
+                src={f.src}
                 crop={f.crop}
                 alt={f.alt}
                 sizes="200px"
