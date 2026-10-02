@@ -65,27 +65,36 @@ export const video = {
 }
 
 export type Song = {
+  /** Shown until the real title is fetched from YouTube (Song 1 is fixed). */
   title: string
-  artist: string
-  cover: string
-  /** Optional direct audio file (e.g. /audio/song-1.mp3) for the in-page play button */
-  audioSrc?: string
-  spotifyUrl?: string
-  youtubeUrl?: string
+  youtubeUrl: string
+  caption: string
 }
 
-/*
- * SONGS — fill these in. For each song:
- *   1. Put the mp3 in  /public/audio/  (e.g. /public/audio/song-1.mp3)
- *   2. Set title, artist, and audioSrc: '/audio/song-1.mp3'
- *   3. Optionally add spotifyUrl / youtubeUrl (they show as link pills)
- * Cover art uses your real photos (cropped square, never edited).
- */
+export const songsIntro = 'Some feelings are difficult to explain, so I hid them inside these songs. ❤️'
+export const songsSignature = 'For you, always. — Kunzu ✨'
+
 export const songs: Song[] = [
-  { title: 'Our Song No. 1', artist: 'Add your song', cover: '/photos/us-together.jpg' /* audioSrc: '/audio/song-1.mp3' */ },
-  { title: 'Our Song No. 2', artist: 'Add your song', cover: '/photos/our-feet.jpg' /* audioSrc: '/audio/song-2.mp3' */ },
-  { title: 'Our Song No. 3', artist: 'Add your song', cover: '/photos/her-smile.jpg' /* audioSrc: '/audio/song-3.mp3' */ },
-  { title: 'Our Song No. 4', artist: 'Add your song', cover: '/photos/him-valley.jpg' /* audioSrc: '/audio/song-4.mp3' */ },
+  {
+    title: 'Until I Found You',
+    youtubeUrl: 'https://www.youtube.com/watch?v=uCMYzolEbO0',
+    caption: 'Some people feel like home. You are one of them.',
+  },
+  {
+    title: 'Song 2',
+    youtubeUrl: 'https://www.youtube.com/watch?v=2vRdzTzR4tI',
+    caption: 'Every time I hear this song, I think of us.',
+  },
+  {
+    title: 'Song 3',
+    youtubeUrl: 'https://youtu.be/T1b6zmqLydA',
+    caption: 'A little piece of my heart hidden inside a melody.',
+  },
+  {
+    title: 'Song 4',
+    youtubeUrl: 'https://youtu.be/oQaWXlsSW2c',
+    caption: "For all the moments we've shared and all the ones still waiting for us.",
+  },
 ]
 
 export type MemoryScene = 'blossoms' | 'moon' | 'work' | 'travel' | 'celebrate' | 'forever'

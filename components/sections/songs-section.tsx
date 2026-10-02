@@ -1,32 +1,48 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import Image from 'next/image'
-import { Pause, Play } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap, skyEvents, useGSAP } from '@/lib/gsap'
-import { songs, type Song } from '@/lib/content'
+import { songs, songsIntro, songsSignature, type Song } from '@/lib/content'
 import { cn } from '@/lib/utils'
 
 const bars = [0, 0.2, 0.45, 0.1, 0.35, 0.6, 0.15]
 
+function youtubeId(url: string) {
+  const m = url.match(/(?:youtu\.be\/|[?&]v=|embed\/)([\w-]{11})/)
+  return m ? m[1] : ''
+}
+
 function SongCard({
   song,
-  index,
   playing,
-  onToggle,
+  onPlay,
 }: {
   song: Song
-  index: number
   playing: boolean
-  onToggle: () => void
+  onPlay: () => void
 }) {
-  const externalUrl = song.spotifyUrl || song.youtubeUrl
-  const canPlay = Boolean(song.audioSrc || externalUrl)
+  const id = youtubeId(song.youtubeUrl)
+  const [title, setTitle] = useState(song.title)
+
+  // Pull the real title from YouTube so it never has to be typed by hand.
+  useEffect(() => {
+    if (!/^Song \d$/.test(song.title)) return
+    let cancelled = false
+    fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(song.youtubeUrl)}&format=json`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!cancelled && d?.title) setTitle(d.title)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [song.title, song.youtubeUrl])
 
   return (
     <article
       className={cn(
-        'group glass relative flex flex-col gap-4 overflow-hidden rounded-3xl p-4 transition-transform duration-700 hover:-translate-y-2',
+        'group glass relative flex h-full flex-col gap-4 overflow-hidden rounded-3xl p-4 transition-transform duration-700 hover:-translate-y-2',
         playing && 'is-playing',
       )}
     >
@@ -34,55 +50,55 @@ function SongCard({
         className="pointer-events-none absolute -left-1/2 top-0 h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-[300%]"
         aria-hidden="true"
       />
-      <div className="relative aspect-square overflow-hidden rounded-2xl">
-        <Image
-          src={song.cover || '/placeholder.svg'}
-          alt={`Album artwork for ${song.title}`}
-          fill
-          sizes="(min-width: 1024px) 260px, (min-width: 640px) 45vw, 90vw"
-          className="object-cover transition-transform duration-1000 group-hover:scale-105"
-        />
-        <button
-          type="button"
-          onClick={onToggle}
-          disabled={!canPlay}
-          className="moon-play absolute bottom-3 right-3 flex size-12 items-center justify-center rounded-full transition-transform hover:scale-110 disabled:cursor-not-allowed disabled:opacity-60"
-          aria-label={playing ? `Pause ${song.title}` : `Play ${song.title}`}
-        >
-          {playing ? (
-            <Pause className="size-5 fill-night text-night" aria-hidden="true" />
-          ) : (
-            <Play className="ml-0.5 size-5 fill-night text-night" aria-hidden="true" />
-          )}
-        </button>
+      <div className="relative aspect-video overflow-hidden rounded-2xl bg-night">
+        {playing ? (
+          <iframe
+            className="absolute inset-0 size-full"
+            src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1`}
+            title={title}
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+              alt={`Thumbnail for ${title}`}
+              loading="lazy"
+              className="absolute inset-0 size-full object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+            <span className="absolute inset-0 bg-gradient-to-t from-night/70 via-transparent to-transparent" />
+            <button
+              type="button"
+              onClick={onPlay}
+              className="moon-play absolute bottom-3 right-3 flex size-12 items-center justify-center rounded-full transition-transform hover:scale-110"
+              aria-label={`Play ${title}`}
+            >
+              {/* crescent moon with a play triangle */}
+              <svg viewBox="0 0 24 24" className="size-6 text-night" aria-hidden="true">
+                <path
+                  d="M15.5 3.2a9 9 0 1 0 5.3 11.9A7.5 7.5 0 0 1 15.5 3.2Z"
+                  fill="currentColor"
+                  opacity="0.22"
+                />
+                <path d="M9.5 8v8l6.5-4-6.5-4Z" fill="currentColor" />
+              </svg>
+            </button>
+          </>
+        )}
       </div>
 
-      <div className="flex items-end justify-between gap-3 px-1">
-        <div className="min-w-0">
-          <h3 className="truncate text-xl font-semibold text-foreground">{song.title}</h3>
-          <p className="truncate text-sm italic text-muted-foreground">{song.artist}</p>
+      <div className="flex flex-1 flex-col gap-2 px-1 pb-1">
+        <div className="flex items-end justify-between gap-3">
+          <h3 className="min-w-0 text-lg font-semibold leading-snug text-foreground">{title}</h3>
+          <div className="flex h-6 shrink-0 items-end gap-0.5" aria-hidden="true">
+            {bars.map((delay, i) => (
+              <span key={i} className="audio-bar h-full" style={{ animationDelay: `${delay}s` }} />
+            ))}
+          </div>
         </div>
-        <div className="flex h-6 items-end gap-0.5" aria-hidden="true">
-          {bars.map((delay, i) => (
-            <span key={i} className="audio-bar h-full" style={{ animationDelay: `${delay}s` }} />
-          ))}
-        </div>
-      </div>
-
-      <div className="flex gap-2 px-1 pb-1 text-xs uppercase tracking-[0.2em]">
-        {song.spotifyUrl ? (
-          <a href={song.spotifyUrl} target="_blank" rel="noreferrer" className="rounded-full border border-border px-3 py-1.5 text-moon transition-colors hover:bg-secondary">
-            Spotify
-          </a>
-        ) : null}
-        {song.youtubeUrl ? (
-          <a href={song.youtubeUrl} target="_blank" rel="noreferrer" className="rounded-full border border-border px-3 py-1.5 text-moon transition-colors hover:bg-secondary">
-            YouTube
-          </a>
-        ) : null}
-        {!song.spotifyUrl && !song.youtubeUrl ? (
-          <span className="px-1 py-1.5 text-muted-foreground">Links coming soon</span>
-        ) : null}
+        <p className="font-script text-2xl leading-snug text-moon">{song.caption}</p>
       </div>
     </article>
   )
@@ -90,7 +106,6 @@ function SongCard({
 
 export function SongsSection() {
   const ref = useRef<HTMLElement>(null)
-  const audioRef = useRef<HTMLAudioElement>(null)
   const [playingIndex, setPlayingIndex] = useState<number | null>(null)
 
   useGSAP(
@@ -99,6 +114,7 @@ export function SongsSection() {
         autoAlpha: 0,
         y: 30,
         duration: 1.2,
+        stagger: 0.15,
         scrollTrigger: { trigger: ref.current, start: 'top 75%' },
       })
       gsap.from('.song-card', {
@@ -109,52 +125,45 @@ export function SongsSection() {
         ease: 'power3.out',
         scrollTrigger: { trigger: '.songs-grid', start: 'top 85%' },
       })
+      gsap.from('.songs-signature', {
+        autoAlpha: 0,
+        y: 20,
+        duration: 1.4,
+        scrollTrigger: { trigger: '.songs-signature', start: 'top 92%' },
+      })
     },
     { scope: ref },
   )
 
-  const toggle = (index: number) => {
-    const song = songs[index]
-    const audio = audioRef.current
-    if (!song.audioSrc) {
-      const url = song.spotifyUrl || song.youtubeUrl
-      if (url) window.open(url, '_blank', 'noopener,noreferrer')
-      return
-    }
-    if (!audio) return
-    if (playingIndex === index) {
-      audio.pause()
-      setPlayingIndex(null)
-      return
-    }
+  const play = (index: number) => {
+    // Fade out the ambient track; the video starts only after this click.
     window.dispatchEvent(new Event(skyEvents.videoPlay))
-    audio.src = song.audioSrc
-    audio.play().then(() => setPlayingIndex(index)).catch(() => setPlayingIndex(null))
+    setPlayingIndex(index)
   }
 
   return (
     <section ref={ref} id="songs" className="relative px-5 py-24 md:py-36">
-      <audio ref={audioRef} onEnded={() => setPlayingIndex(null)} />
       <header className="mx-auto mb-14 max-w-2xl text-center">
         <p className="songs-title eyebrow mb-4">Chapter Four</p>
         <h2 className="songs-title text-balance font-script text-5xl leading-tight text-moon text-glow md:text-7xl">
           Songs That Remind Me Of You
         </h2>
+        <p className="songs-title mx-auto mt-6 max-w-md text-pretty text-base italic text-muted-foreground">
+          {songsIntro}
+        </p>
       </header>
       <div className="songs-grid mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {songs.map((song, i) => (
-          <div key={`${song.title}-${i}`} className="song-card">
-            <div style={{ animation: `bob ${7 + i}s ease-in-out ${i * 0.8}s infinite` }}>
-              <SongCard
-                song={song}
-                index={i}
-                playing={playingIndex === i}
-                onToggle={() => toggle(i)}
-              />
+          <div key={song.youtubeUrl} className="song-card">
+            <div className="h-full" style={{ animation: `bob ${7 + i}s ease-in-out ${i * 0.8}s infinite` }}>
+              <SongCard song={song} playing={playingIndex === i} onPlay={() => play(i)} />
             </div>
           </div>
         ))}
       </div>
+      <p className="songs-signature mt-16 text-center font-script text-3xl text-moon text-glow">
+        {songsSignature}
+      </p>
     </section>
   )
 }
