@@ -5,8 +5,8 @@ export const names = {
 }
 
 export const photos = {
-  together: '/photos/us-together.jpg',
-  adventure: '/photos/our-feet.jpg',
+  together: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KUHSe8QvNXEUWh8nvT69XEPj8cA5c3.png',
+  adventure: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KUHSe8QvNXEUWh8nvT69XEPj8cA5c3.png',
 }
 
 /**
