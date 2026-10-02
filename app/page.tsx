@@ -1,31 +1,37 @@
 import { Starfield } from '@/components/sky/starfield'
 import { SkyAtmosphere } from '@/components/sky/sky-atmosphere'
 import { CursorTrail } from '@/components/sky/cursor-trail'
-import { AmbientMusic } from '@/components/sky/ambient-music'
-import { IntroSection } from '@/components/sections/intro-section'
-import { PhotoSection } from '@/components/sections/photo-section'
-import { LetterSection } from '@/components/sections/letter-section'
-import { VideoSection } from '@/components/sections/video-section'
-import { SongsSection } from '@/components/sections/songs-section'
-import { FutureSection } from '@/components/sections/future-section'
-import { FinaleSection } from '@/components/sections/finale-section'
+import { FloatingPetals } from '@/components/story/floating-petals'
+import { StoryMotion } from '@/components/story/story-motion'
+import { MusicPlayer } from '@/components/story/music-player'
+import { FirstMeeting } from '@/components/story/first-meeting'
+import { FallingForYou } from '@/components/story/falling-for-you'
+import { FavoriteMemories } from '@/components/story/favorite-memories'
+import { AdventuresTogether } from '@/components/story/adventures-together'
+import { LateNightTalks } from '@/components/story/late-night-talks'
+import { UpsAndDowns } from '@/components/story/ups-and-downs'
+import { FutureDreams } from '@/components/story/future-dreams'
+import { BoyfriendsDayFinale } from '@/components/story/boyfriends-day-finale'
 
 export default function Page() {
   return (
     <>
       <Starfield />
       <SkyAtmosphere />
+      <FloatingPetals />
       <CursorTrail />
-      <AmbientMusic />
-      <main className="relative">
-        <IntroSection />
-        <PhotoSection />
-        <LetterSection />
-        <VideoSection />
-        <SongsSection />
-        <FutureSection />
-        <FinaleSection />
+      <main className="relative z-10">
+        <FirstMeeting />
+        <FallingForYou />
+        <FavoriteMemories />
+        <AdventuresTogether />
+        <LateNightTalks />
+        <UpsAndDowns />
+        <FutureDreams />
+        <BoyfriendsDayFinale />
       </main>
+      <MusicPlayer />
+      <StoryMotion />
     </>
   )
 }

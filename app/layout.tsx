@@ -20,7 +20,7 @@ const greatVibes = Great_Vibes({
 
 export const metadata: Metadata = {
   title: "Happy Boyfriend's Day, Mrinmoy",
-  description: 'A sky full of stars, made with love by Kunjana for Mrinmoy.',
+  description: 'Our love story in eight chapters, made with love by Kunjana for Mrinmoy.',
   generator: 'v0.app',
   robots: { index: false, follow: false },
   icons: {
